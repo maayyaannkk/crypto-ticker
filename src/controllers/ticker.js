@@ -3,10 +3,8 @@ const redis = require('redis');
 const tickerUtil = require('../utils/tickerUtil');
 const CACHE_POLICY_TIMEOUT = 15;
 
-// create and connect redis client to local instance.
 const redisClient = redis.createClient();
 
-// Print redis errors to the console
 redisClient.on('error', (err) => {
     console.log("Error " + err);
 });
@@ -17,7 +15,7 @@ exports.getBitbns = (req, response) => {
             const resultJSON = JSON.parse(result);
             response.status(200).json(resultJSON);
         } else {
-            request('https://bitbns.com/order/getTickerWithVolume/', (err, res, body) => {
+            request('https://bitbns.com/order/getTickerWithVolume', (err, res, body) => {
                 if (err) { return console.log(err); }
                 redisClient.setex('bitbns', CACHE_POLICY_TIMEOUT, JSON.stringify(tickerUtil.formatBitbns(JSON.parse(body))));
                 response.status(200).send(tickerUtil.formatBitbns(JSON.parse(body)));
@@ -75,8 +73,8 @@ exports.getGiottus = (req, response) => {
         } else {
             request('https://www.giottus.com/api/ticker', (err, res, body) => {
                 if (err) { return console.log(err); }
-                redisClient.setex('giottus', CACHE_POLICY_TIMEOUT, JSON.stringify(tickerUtil.formatGiottus(JSON.parse(body).market)));
-                response.status(200).send(tickerUtil.formatGiottus(JSON.parse(body).market));
+                redisClient.setex('giottus', CACHE_POLICY_TIMEOUT, JSON.stringify(tickerUtil.formatGiottus(JSON.parse(body).prices)));
+                response.status(200).send(tickerUtil.formatGiottus(JSON.parse(body).prices));
             });
         }
     })
