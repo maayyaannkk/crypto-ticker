@@ -25,7 +25,7 @@ function cacheBitbns() {
                 reject(Error(err));
             } else {
                 redisClient.setex('bitbns', CACHE_POLICY_TIMEOUT, JSON.stringify(tickerUtil.formatBitbns(JSON.parse(body))), (error, result) => {
-                    if (result) resolve(result);
+                    if (result) resolve(JSON.stringify(tickerUtil.formatBitbns(JSON.parse(body))));
                     else reject(error);
                 });
             }
@@ -40,7 +40,7 @@ function cacheWazirx() {
                 reject(Error(err));
             } else {
                 redisClient.setex('wazirx', CACHE_POLICY_TIMEOUT, JSON.stringify(tickerUtil.formatWazirx(JSON.parse(body))), (error, result) => {
-                    if (result) resolve(result);
+                    if (result) resolve(JSON.stringify(tickerUtil.formatWazirx(JSON.parse(body))));
                     else reject(error);
                 });
             }
@@ -55,7 +55,7 @@ function cacheCoindcx() {
                 reject(Error(err));
             } else {
                 redisClient.setex('coindcx', CACHE_POLICY_TIMEOUT, JSON.stringify(tickerUtil.formatCoinDcx(JSON.parse(body))), (error, result) => {
-                    if (result) resolve(result);
+                    if (result) resolve(JSON.stringify(tickerUtil.formatCoinDcx(JSON.parse(body))));
                     else reject(error);
                 });
             }
@@ -70,7 +70,7 @@ function cacheBitpolo() {
                 reject(Error(err));
             } else {
                 redisClient.setex('bitpolo', CACHE_POLICY_TIMEOUT, JSON.stringify(tickerUtil.formatBitpolo(JSON.parse(body).result)), (error, result) => {
-                    if (result) resolve(result);
+                    if (result) resolve(JSON.stringify(tickerUtil.formatBitpolo(JSON.parse(body).result)));
                     else reject(error);
                 });
             }
@@ -85,7 +85,7 @@ function cacheGiottus() {
                 reject(Error(err));
             } else {
                 redisClient.setex('giottus', CACHE_POLICY_TIMEOUT, JSON.stringify(tickerUtil.formatGiottus(JSON.parse(body).prices)), (error, result) => {
-                    if (result) resolve(result);
+                    if (result) resolve(JSON.stringify(tickerUtil.formatGiottus(JSON.parse(body).prices)));
                     else reject(error);
                 });
             }

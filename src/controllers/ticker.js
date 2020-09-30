@@ -40,8 +40,9 @@ function returnTicker(req, response, ticker) {
             response.status(200).json(resultJSON);
         } else {
             tickerPromiseUtil.cacheExchange(ticker).then(
-                success => {
-                    returnTicker(req, response, ticker);
+                result => {
+                    const resultJSON = JSON.parse(result);
+                    response.status(200).json(resultJSON);
                 },
                 error => { console.log(error); }
             );
