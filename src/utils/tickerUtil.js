@@ -6,7 +6,10 @@ exports.formatBitbns = (json) => {
         innerData.last_traded_price = parseFloat(json[key].last_traded_price);
         innerData.day_high = parseFloat(json[key].volume.max);
         innerData.day_low = parseFloat(json[key].volume.min);
-        jsonData[key] = innerData;
+        if (key.toLowerCase().includes("usdt"))
+            jsonData[key.toLowerCase()] = innerData;
+        else
+            jsonData[key.toLowerCase() + "inr"] = innerData;
     })
     return jsonData;
 }
@@ -18,7 +21,7 @@ exports.formatWazirx = (json) => {
         innerData.last_traded_price = parseFloat(json[key].last);
         innerData.day_high = parseFloat(json[key].high);
         innerData.day_low = parseFloat(json[key].low);
-        jsonData[key] = innerData;
+        jsonData[key.toLowerCase()] = innerData;
     })
     return jsonData;
 }
@@ -30,7 +33,7 @@ exports.formatCoinDcx = (json) => {
         innerData.last_traded_price = parseFloat(item.last_price);
         innerData.day_high = parseFloat(item.high);
         innerData.day_low = parseFloat(item.low);
-        jsonData[item.market] = innerData;
+        jsonData[item.market.toLowerCase()] = innerData;
     });
     return jsonData;
 }
@@ -43,7 +46,7 @@ exports.formatBitpolo = (json) => {
         innerData.last_traded_price = parseFloat(json[key].last);
         innerData.day_high = parseFloat(json[key].high);
         innerData.day_low = parseFloat(json[key].low);
-        jsonData[key] = innerData;
+        jsonData[key.toLowerCase()] = innerData;
     })
     return jsonData;
 }
@@ -53,7 +56,7 @@ exports.formatGiottus = (json) => {
     Object.keys(json).forEach(function (key) {
         var innerData = {};
         innerData.last_traded_price = parseFloat(json[key]);
-        jsonData[key] = innerData;
+        jsonData[key.replace('/', '').toLowerCase()] = innerData;
     })
     return jsonData;
 }
