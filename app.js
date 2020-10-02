@@ -22,6 +22,7 @@ app.get('/ticker-giottus', tickerController.getGiottus);
  * Trading Pair routes
  */
 app.post('/get-pairs', tradingPairController.getTradingPairValues);
+app.get('/get-all-pairs', tradingPairController.getAllPairs);
 
 /**
  * Start Express server.

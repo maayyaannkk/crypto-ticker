@@ -18,6 +18,36 @@ exports.getTradingPairValues = (req, response) => {
     );
 };
 
+exports.getAllPairs = async (req, response) => {
+    requestAllPairs().then(
+        result => {
+            response.status(200).json({ "success": true, "pairs": result });
+        },
+        _ => { response.status(200).json({ "error": "invalid json" }); }
+    );
+}
+
+async function requestAllPairs() {
+    var resultToReturn = {};
+    var exchanges = [
+        "bitbns",
+        "wazirx",
+        "coindcx",
+        "bitpolo",
+        "giottus"
+    ];
+    var exchangePromises = [];
+    for (const exchange of exchanges) {
+        exchangePromises.push(tickerPromiseUtil.cacheExchange(exchange));
+    }
+    let result = await Promise.allSettled(exchangePromises);
+    for (var i = 0; i < result.length; i++) {
+        let exchangeJson = JSON.parse(result[i].value);
+        resultToReturn[exchanges[i]] = Object.keys(exchangeJson);
+    }
+    return JSON.parse(JSON.stringify(resultToReturn));
+}
+
 async function getValues(requestedPairs) {
     requestedPairs = await checkExchangeInJson(requestedPairs).catch(err => { });
 
